@@ -1,0 +1,135 @@
+@Metadata.layer: #CORE
+@UI: {
+        headerInfo: {
+            typeName: 'Travel',
+            typeNamePlural: 'Travels',
+            title: { type: #STANDARD, value: 'travel_id' }
+        },   
+         presentationVariant: [{ 
+              sortOrder: [{by: 'created_at',direction: #DESC }],
+              visualizations: [{type: #AS_LINEITEM}]
+         }] 
+}
+
+@UI.lineItem: [{criticality: 'status_criticality'}]
+annotate entity ZC_TRAVEL_HS
+    with 
+{
+
+    @UI.facet: [ {
+                  purpose: #FILTER,
+                  type: #FIELDGROUP_REFERENCE,
+                  targetQualifier: 'KeyFilters',
+                  label: 'Key Filters (#FilterGrouping)'
+              },
+              {   id: 'HeaderInfo',purpose: #HEADER, type : #DATAPOINT_REFERENCE, targetQualifier: 'rating_value', position: 5  },
+              {   id: 'Travel',  purpose: #STANDARD, type: #IDENTIFICATION_REFERENCE, label: 'Travel Details',  position: 10 },
+              {   id: 'CollectFacet',type: #COLLECTION, position: 15,purpose: #STANDARD,label: 'Common Data'  },
+              {   id: 'Fieldgroup1-ID',type: #FIELDGROUP_REFERENCE,parentId: 'CollectFacet',label: 'Dates',targetQualifier: 'Fieldgroup1',position: 20 },  
+              {   id: 'Fieldgroup2-ID',type: #FIELDGROUP_REFERENCE,parentId: 'CollectFacet',label: 'Details',targetQualifier: 'Fieldgroup2',position: 20},
+              {   id: 'Booking', purpose: #STANDARD,type: #LINEITEM_REFERENCE,label: 'Bookings', position: 20, targetElement: '_Booking'}    
+            ]
+            
+            
+  @UI: { lineItem: [ { position: 10, importance: #HIGH },
+                     { type: #FOR_ACTION, dataAction: 'acceptTravel', label: 'Accept Travel' },
+                     { type: #FOR_ACTION, dataAction: 'rejectTravel', label: 'Reject Travel' }  ],
+         identification: [ { position: 10, label: 'Travel ID' } ] 
+        }
+        
+        
+  @Search.defaultSearchElement: true
+  @EndUserText.label: 'Travel ID'
+  @UI.fieldGroup: [{ qualifier: 'KeyFilters' }]
+  travel_id;  
+  
+  @UI: {
+          lineItem: [ { position: 20, importance: #HIGH } ], 
+          identification: [ { position: 20 } ],  
+          selectionField: [ { position: 20 } ] 
+        }
+  @Search.defaultSearchElement: true
+  @EndUserText.label: 'Agency'
+  @UI.fieldGroup: [{ qualifier: 'KeyFilters' }] 
+  @Consumption.valueHelpDefinition: [{ entity : {name: 'ZI_AGENCY', element: 'AgencyID' }, useForValidation: true }]  
+  agency_id;
+  
+  @UI: {
+          lineItem: [ { position: 30, importance: #HIGH } ],
+          identification: [ { position: 30 } ],
+          selectionField: [ { position: 30 } ] 
+        }
+  @Search.defaultSearchElement: true
+  @EndUserText.label: 'Customer'
+  @UI.fieldGroup: [{ qualifier: 'KeyFilters' }]
+  @Consumption.valueHelpDefinition: [{entity: {name: 'ZI_Customer', element: 'CustomerID' }, useForValidation: true }]  
+  customer_id;
+  
+  @EndUserText.label: 'Customer Email'
+  @UI:{ identification: [ { position: 15, label: 'Customer Email' } ] }
+  customer_email;
+
+  @UI: {lineItem: [ { position: 40, importance: #MEDIUM } ] }
+  @EndUserText.label: 'Start Date'
+  @UI.fieldGroup:[{qualifier: 'Fieldgroup1', position: 10}]  
+  begin_date;
+
+  @UI: {lineItem: [ { position: 41, importance: #MEDIUM } ] }
+  @EndUserText.label: 'End Date'
+  @UI.fieldGroup:[{qualifier: 'Fieldgroup1', position: 20}]  
+  end_date;
+  
+  @EndUserText.label: 'Booking Fee'
+  @UI.fieldGroup : [{qualifier: 'Fieldgroup2', position: 05}]
+  booking_fee;
+  
+  @UI: {
+          lineItem: [ { position: 43, importance: #MEDIUM } ],
+          identification: [ { position: 43, label: 'Total Price' } ] 
+      }
+  @EndUserText.label: 'Total Price'
+  @UI.fieldGroup:[{qualifier: 'Fieldgroup2', position: 10}]   
+  total_price;
+
+  @EndUserText.label: 'Total Tax'
+  @UI:{ identification: [ { position: 45, label: 'Total Tax' } ] }
+  @UI.fieldGroup:[{qualifier: 'Fieldgroup2', position: 20}]  
+  tax_price;  
+  
+  @EndUserText.label: 'Currency'
+  currency_code;
+
+//  @Consumption.filter: { mandatory: true , selectionType: #RANGE, multipleSelections: false , defaultValue: 'O' }
+  @UI: {
+    lineItem: [ { position: 50, importance: #HIGH ,criticality: 'status_criticality' } ],
+    identification: [ { position: 45, label: 'Status' } ],
+    selectionField: [{ position: 40 }],
+    textArrangement: #TEXT_ONLY
+  }
+  @EndUserText.label: 'Status'
+  @Consumption.valueHelpDefinition: [{entity: {name: 'ZI_STATUS_VH', element: 'TravelStatus' }, useForValidation: true }]  
+  status;
+
+  @Consumption.filter.hidden: true
+  @UI.hidden: true
+  status_criticality;
+  
+  @EndUserText.label:'Description'
+//  @UI.multiLineText: true
+  description;
+
+//  @Consumption.filter.hidden: true
+//  @UI.hidden: true
+  @EndUserText.label:'Last Changed'
+  last_changed_at;
+
+
+  @UI.dataPoint: { qualifier: 'rating_value', targetValue: 4, visualization: #RATING, title:'Rating' }
+  @UI: {
+    lineItem:[ { type: #AS_DATAPOINT, label: 'Rating',importance: #HIGH, position: 55 } ],
+    identification: [ { type: #AS_DATAPOINT, label: 'Rating', position: 23 } ]
+  }
+  @EndUserText.label: 'Rating'
+  rating_value;
+    
+}

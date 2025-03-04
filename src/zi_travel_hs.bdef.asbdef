@@ -1,0 +1,71 @@
+managed implementation in class zbp_i_travel_hs unique;
+strict ( 2 );
+
+define behavior for ZI_TRAVEL_HS alias Travel
+persistent table ztb_travel_hs
+lock master
+authorization master ( instance )
+etag master last_changed_at
+
+{
+  create;
+  update;
+  delete;
+  // administrative fields: read only
+  field ( readonly ) last_changed_at, last_changed_by, created_at, created_by, tax_price, total_price;
+  // mandatory fields that are required to create a travel
+  field ( mandatory ) agency_id, customer_id, begin_date, end_date, status, booking_fee, currency_code, customer_Email;
+
+mapping for ztb_travel_hs
+    {
+      travel_id          = travel_id;
+      agency_id          = agency_id;
+      customer_id        = customer_id;
+      customer_email     = customer_email;
+      begin_date         = begin_date;
+      end_date           = end_Date;
+      status             = status;
+      status_criticality = status_Criticality;
+      booking_fee        = booking_fee;
+      total_price        = total_price;
+      tax_price          = tax_price;
+      currency_code      = currency_code;
+      description        = description;
+      created_by         = created_by;
+      created_at         = created_at;
+      last_changed_by    = last_changed_by;
+      last_changed_at    = last_changed_at;
+    }
+
+
+
+  association _Booking { create ( features : instance ); }
+
+  action ( features : instance ) acceptTravel result [1] $self;
+  action ( features : instance ) rejectTravel result [1] $self;
+
+  determination calculateTotalTax on modify { field booking_fee; }
+  side effects
+  {
+    field booking_fee affects field TAX_PRICE, field TOTAL_PRICE;
+  }
+}
+
+define behavior for ZI_BOOKING_HS alias Booking
+persistent table ztb_booking_hs
+lock dependent by _Travel
+authorization dependent by _Travel
+etag master last_changed_at
+{
+  update;
+  delete;
+
+  association _Travel;
+
+  field ( readonly ) last_changed_at;
+  field ( mandatory : create, readonly : update ) booking_date, customer_id;
+  field ( mandatory ) flight_date, booking_status, currency_code, booking_location;
+  field ( readonly ) travel_id;
+  mapping for ztb_booking_hs corresponding;
+  action ( features : instance ) setDefault result [1] $self;
+}

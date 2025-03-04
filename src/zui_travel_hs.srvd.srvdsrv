@@ -1,0 +1,17 @@
+@EndUserText.label: 'Travel Service'
+define service ZUI_TRAVEL_HS {
+  expose ZC_TRAVEL_HS     as Travel;
+  expose ZC_BOOKING_HS as Booking;
+  expose I_CurrencyStdVH  as Currency;
+  expose I_CountryVH      as Country;
+  expose ZI_CUSTOMER      as Customer;
+  expose ZI_AGENCY        as Agency;
+  expose ZI_CURRENCYTEXT  as CurrencyText;
+  expose ZI_STATUS_VH     as StatusVH;
+  expose ZI_STATUSTEXT_VH as StatusTextVH;
+  expose ZI_BOOKINGLOC    as BookingLOcations;
+  expose ZI_BOOKING       as A_Bookings;
+  expose ZC_BOOKING_CHART as BookingChart;
+  expose ZC_ATTACHMENTS   as Attachments;
+  expose ZR_EXTERNAL      as ExternalData;
+}

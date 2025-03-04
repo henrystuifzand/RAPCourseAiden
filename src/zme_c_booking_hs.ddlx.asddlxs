@@ -1,0 +1,182 @@
+@Metadata.layer: #CORE
+
+@UI: {
+        headerInfo: {
+        typeName: 'Booking',
+        typeNamePlural: 'Bookings',
+        title: { type: #STANDARD, value: 'booking_id' }
+        }   
+}
+
+@UI.chart: [
+    {
+        qualifier: 'radialChart',
+        title: 'Occupancy',
+        description: 'This is a micro chart',
+        chartType: #DONUT,
+        measures: ['radial_value'],
+        measureAttributes: [{measure: 'radial_value',role: #AXIS_1, asDataPoint: true}]
+    }
+//    {
+//        qualifier: 'columnChart',
+//        title: 'Flight Prices of this Travel by Airline',
+//        chartType: #COMBINATION_DUAL,
+//        dimensions: [ 'booking_status'],
+//        measures: [ 'flight_price', 'DistinctBookings'],
+//        measureAttributes: [ {measure: 'flight_price', role: #AXIS_1},
+//                             {measure: 'DistinctBookings', role: #AXIS_2}
+//                           ],
+//        dimensionAttributes: [ {dimension: 'booking_status', role: #SERIES} ],
+//        description: 'Chart shows flight prices of travel by the airlines used per each booking.'
+//    }  
+]    
+annotate entity ZC_BOOKING_HS
+    with 
+{
+      @UI.facet: [
+//      {
+//          id: 'Booking',
+//          purpose: #STANDARD,
+//          type: #IDENTIFICATION_REFERENCE,
+//          label: 'Booking Details',
+//          position: 10
+//      },
+      {
+          id: 'BookingInfo',
+          purpose: #HEADER,
+          type : #CHART_REFERENCE,
+          targetQualifier: 'radialChart',
+          position: 5
+      } ,
+      {
+          id: 'BookingInfo',
+          purpose: #HEADER,
+          type : #DATAPOINT_REFERENCE,
+          targetQualifier: 'progress_value',
+          position: 15
+      }
+      ]
+      @Search.defaultSearchElement: true
+      travel_id;
+//    
+      @UI: { lineItem: [ { position: 20, importance: #HIGH } ],  identification: [ { position: 20 } ] }
+      @Search.defaultSearchElement: true
+      @EndUserText.label: 'Booking ID'
+      booking_id;
+    
+//      @UI.lineItem:[ { cssDefault.width: '8em', position: 10, importance: #HIGH } ]
+//      @EndUserText.label: 'Airline'
+//      flightimageurl;
+    
+      @UI: { lineItem: [ { position: 30, importance: #HIGH } ], identification: [ { position: 30 } ] }
+      @EndUserText.label: 'Booking Date'
+      booking_date;
+//    
+      @UI: { lineItem: [ { position: 40, importance: #HIGH } ],  identification: [ { position: 40 } ] }
+//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZI_Customer', element: 'CustomerID' }, useForValidation: true }]
+      @EndUserText.label: 'Customer'
+      @Search.defaultSearchElement: true
+      @UI.fieldGroup: [{ qualifier: 'AdminData' }]
+      customer_id;
+    
+      @UI: { lineItem: [ { position: 70, importance: #HIGH } ],
+      identification: [ { position: 70 } ] }
+      @EndUserText.label: 'Flight Date'
+      flight_date;
+    
+      @UI: { lineItem: [ { position: 80, importance: #HIGH } ],
+      identification: [ { position: 80 } ] }
+      @EndUserText.label: 'Flight Price'
+      flight_price;
+    
+      @UI: { lineItem: [ { position: 81, importance: #HIGH } ]}
+//      @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }, useForValidation: true }]
+      @EndUserText.label: 'Currency'
+      currency_code;
+    
+      @EndUserText.label:'Booking Office'
+      booking_location;
+    
+      @UI: { lineItem: [ { position: 90, importance: #HIGH, label: 'Status', criticality: 'booking_status_criticality' } ],
+             identification: [ { position: 90, label: 'Status' } ],   textArrangement: #TEXT_ONLY
+           }
+      @EndUserText.label: 'Status'
+//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZI_STATUS_VH', element: 'TravelStatus' }, useForValidation: true }]
+      @UI.fieldGroup: [{ qualifier: 'AdminData' }]
+      booking_status;
+//    
+      @UI.dataPoint: {
+                      qualifier: 'radial_value',
+                      minimumValue: 0,
+                      maximumValue: 100,
+                      criticalityCalculation:{
+                                      improvementDirection: #MAXIMIZE ,
+                                      deviationRangeLowValue: 50.00 ,
+                                      toleranceRangeLowValue: 75.00
+                          }
+                     }
+      @UI.lineItem: [
+                      {
+                          type: #AS_CHART,
+                          label: 'Occupancy',
+                          valueQualifier: 'radialChart',
+                          importance: #HIGH,
+                              cssDefault.width: '15em',
+                              position: 95
+                      }   
+                    ]  
+      @UI.identification: [ { type: #AS_DATAPOINT, label: 'Occupancy', position: 15} ]
+      @EndUserText.label :'Occupancy'
+      radial_value;
+        
+      @UI.dataPoint: {
+                        qualifier: 'progress_value',   
+                        targetValue: 100.00,    
+                        visualization: #PROGRESS,
+                        criticality: 'progress_criticality',
+                        title: 'CO2 Emission'
+                      }
+    
+      @UI.lineItem: [   
+                        {                   
+                          type:#AS_DATAPOINT,
+                          label: 'CO2 Emission',
+                          importance: #HIGH,
+                          position: 100,
+                          cssDefault.width: '10em'
+                         }
+                     ]
+    
+      @EndUserText.label :'CO2 Emission level'  
+      progress_value;
+    
+      // @UI: { lineItem: [ { position:105, importance: #HIGH } ],   
+      // identification: [ { position: 82 } ] }
+      // @EndUserText.label: 'Last Changed'
+      // last_changed_at;
+    
+//  
+      @UI: { fieldGroup: [{ qualifier: 'AdminData' }],
+             lineItem: [ { type : #AS_FIELDGROUP, position:105, importance: #HIGH , valueQualifier: 'AdminData' , label : 'Multi Cols'} ],
+             identification: [ { position: 82 } ] }
+      last_changed_at;
+//    
+       @UI: { lineItem: [ { position:110,value : '_BookingLocations.country' ,label : 'Office', importance: #HIGH } ],
+              identification: [ { position: 85 , value : '_BookingLocations.country', label : 'Office'} ] }
+       _BookingLocations;
+    
+      @UI: { lineItem: [ { position:110, label : 'Nav with Sem Obj', importance: #HIGH, cssDefault.width: '15em' },
+                         { type: #FOR_INTENT_BASED_NAVIGATION, label: 'Nav with Sem Obj', semanticObject: 'SalesOrder', semanticObjectAction: 'displayFactSheet', requiresContext: true }
+                       ]  
+            }   
+      @EndUserText.label: 'Nav with Sem Obj'
+      navigation_sobj;
+//    
+      @UI: { lineItem: [{ position:120, label : 'Nav with URL', importance: #HIGH }, 
+                        { type : #WITH_URL , url : 'navigation_url' }
+                       ]
+            }
+      @EndUserText.label: 'Nav with URL'  
+      company;
+    
+}
