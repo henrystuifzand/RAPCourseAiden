@@ -1,7 +1,7 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Composition view for Booking'
 @Metadata.ignorePropagatedAnnotations: true
-define view entity ZI_BOOKING_HS as select from ztb_booking_00
+define view entity ZI_BOOKING_HS as select from ztb_booking_hs
   association        to parent ZI_TRAVEL_HS as _Travel           on $projection.travel_id = _Travel.travel_id
   association [0..1] to ZI_CUSTOMER      as _Customer         on $projection.customer_id = _Customer.CustomerID
   association [1..*] to ZI_STATUSTEXT_VH as _TravelStatus     on $projection.booking_status = _TravelStatus.TravelStatus
@@ -14,7 +14,7 @@ define view entity ZI_BOOKING_HS as select from ztb_booking_00
       flight_date,
 
       @Semantics.amount.currencyCode: 'currency_code'
-   //   @Aggregation.default: #SUM
+      @Aggregation.default: #SUM
       flight_price,
 
       @Semantics.imageUrl: true
@@ -28,7 +28,7 @@ define view entity ZI_BOOKING_HS as select from ztb_booking_00
       progress_value,
 
       //@Aggregation.referenceElement: ['booking_id']
-     // @Aggregation.default: #COUNT_DISTINCT
+      //@Aggregation.default: #COUNT_DISTINCT
       cast(1 as abap.int4) as DistinctBookings,
 
       case when progress_value >= 75 then 3

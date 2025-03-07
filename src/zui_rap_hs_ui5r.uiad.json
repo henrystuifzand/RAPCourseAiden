@@ -1,0 +1,34 @@
+{
+  "formatVersion": "1",
+  "header": {
+    "description": "Travel",
+    "originalLanguage": "en",
+    "abapLanguageVersion": "cloudDevelopment"
+  },
+  "generalInformation": {
+    "appType": "ui5",
+    "catalogId": "SAP_TC_UI5_REPO_UIAD"
+  },
+  "ui5AppDetails": {
+    "appId": "eu.aiden.dev.travelhs"
+  },
+  "navigation": {
+    "targetMappingId": "UI5R_3DC5CA972CAC76991CB9F91F52E1901350B4848F_TM",
+    "semanticObject": "TravelHS",
+    "action": "display",
+    "desktop": true,
+    "tablet": true,
+    "phone": true
+  },
+  "tiles": [
+    {
+      "id": "UI5R_3DC5CA972CAC76991CB9F91F52E1901350B4848F_AL",
+      "tileType": "static",
+      "isDefault": true,
+      "standard": {
+        "title": "Travel",
+        "subtitle": "Overview of Travels"
+      }
+    }
+  ]
+}

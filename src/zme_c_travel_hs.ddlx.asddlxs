@@ -27,7 +27,8 @@ annotate entity ZC_TRAVEL_HS
               {   id: 'CollectFacet',type: #COLLECTION, position: 15,purpose: #STANDARD,label: 'Common Data'  },
               {   id: 'Fieldgroup1-ID',type: #FIELDGROUP_REFERENCE,parentId: 'CollectFacet',label: 'Dates',targetQualifier: 'Fieldgroup1',position: 20 },  
               {   id: 'Fieldgroup2-ID',type: #FIELDGROUP_REFERENCE,parentId: 'CollectFacet',label: 'Details',targetQualifier: 'Fieldgroup2',position: 20},
-              {   id: 'Booking', purpose: #STANDARD,type: #LINEITEM_REFERENCE,label: 'Bookings', position: 20, targetElement: '_Booking'}    
+              {   id: 'Booking', purpose: #STANDARD,type: #LINEITEM_REFERENCE,label: 'Bookings', position: 20, targetElement: '_Booking'},
+              {   id: 'Chart1-ID',  type: #CHART_REFERENCE, label: 'Chart facet', position: 50, purpose: #STANDARD, targetQualifier: 'columnChart', targetElement: '_Booking' }    
             ]
             
             

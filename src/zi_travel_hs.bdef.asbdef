@@ -44,7 +44,11 @@ mapping for ztb_travel_hs
   action ( features : instance ) acceptTravel result [1] $self;
   action ( features : instance ) rejectTravel result [1] $self;
 
+  validation validateDates on save { create; field begin_date, end_date; }
+  validation validateEmail on save { create; update; field customer_email; }
+
   determination calculateTotalTax on modify { field booking_fee; }
+
   side effects
   {
     field booking_fee affects field TAX_PRICE, field TOTAL_PRICE;
@@ -66,6 +70,8 @@ etag master last_changed_at
   field ( mandatory : create, readonly : update ) booking_date, customer_id;
   field ( mandatory ) flight_date, booking_status, currency_code, booking_location;
   field ( readonly ) travel_id;
+
   mapping for ztb_booking_hs corresponding;
+
   action ( features : instance ) setDefault result [1] $self;
 }

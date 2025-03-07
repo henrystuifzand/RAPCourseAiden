@@ -16,19 +16,19 @@
         chartType: #DONUT,
         measures: ['radial_value'],
         measureAttributes: [{measure: 'radial_value',role: #AXIS_1, asDataPoint: true}]
-    }
-//    {
-//        qualifier: 'columnChart',
-//        title: 'Flight Prices of this Travel by Airline',
-//        chartType: #COMBINATION_DUAL,
-//        dimensions: [ 'booking_status'],
-//        measures: [ 'flight_price', 'DistinctBookings'],
-//        measureAttributes: [ {measure: 'flight_price', role: #AXIS_1},
-//                             {measure: 'DistinctBookings', role: #AXIS_2}
-//                           ],
-//        dimensionAttributes: [ {dimension: 'booking_status', role: #SERIES} ],
-//        description: 'Chart shows flight prices of travel by the airlines used per each booking.'
-//    }  
+    },
+    {
+        qualifier: 'columnChart',
+        title: 'Flight Prices of this Travel by Airline',
+        chartType: #COMBINATION_DUAL,
+        dimensions: [ 'booking_status'],
+        measures: [ 'flight_price', 'DistinctBookings'],  
+        measureAttributes: [ {measure: 'flight_price', role: #AXIS_1},
+                             {measure: 'DistinctBookings', role: #AXIS_2}
+                           ],
+        dimensionAttributes: [ {dimension: 'booking_status', role: #SERIES} ],
+        description: 'Chart shows flight prices of travel by the airlines used per each booking.'
+    }  
 ]    
 annotate entity ZC_BOOKING_HS
     with 
